@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.hospital_information_system.Controller">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.hospital_information_system.Controller"
+            prefWidth="600" prefHeight="400">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <VBox spacing="20"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <!-- Header -->
+        <Label text="Patient Management System"
+               style="-fx-font-size: 28px; -fx-font-weight: bold;"
+               alignment="CENTER"/>
+
+        <Label text="Add Patient"
+               style="-fx-font-size: 18px; -fx-font-weight: bold;"
+               alignment="TOP_LEFT"/>
+        <!-- Employee Form Section -->
+        <VBox spacing="10">
+            <TextField fx:id="nationalIdField" promptText="National ID"/>
+            <TextField fx:id="firstNameField" promptText="Firstname"/>
+            <TextField fx:id="surnameField" promptText="Surname"/>
+            <TextField fx:id="telephoneField" promptText="Phone"/>
+            <HBox spacing="10">
+                <ComboBox fx:id="sexComboBox" promptText="Select Sex" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="M"/>
+                            <String fx:value="F"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <DatePicker fx:id="dateOfBirthField" promptText="Enter date of birth (YYYY-MM-DD)" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+
+            <Button text="Submit" onAction="#handleSubmit" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        </VBox>
+
+    </VBox>
+
+
+</AnchorPane>

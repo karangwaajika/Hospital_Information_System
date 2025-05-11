@@ -44,7 +44,7 @@ public class PatientRepository {
         }
     }
 
-    public boolean patientExists(String patientNationalID) throws SQLException{
+    public boolean checkPatientExists(String patientNationalID) throws SQLException{
         String sql = "SELECT COUNT(*) FROM patient WHERE national_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {

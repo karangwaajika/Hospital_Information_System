@@ -26,7 +26,7 @@ public class Main {
             System.out.println("###### INSERT ######");
 
             PatientRepository patientRepo = new PatientRepository(conn);
-            if(!patientRepo.patientExists(p.getNationalId())){
+            if(!patientRepo.checkPatientExists(p.getNationalId())){
                 patientRepo.insertPatient(p);
             }else{
                 System.out.println("user exist!");
