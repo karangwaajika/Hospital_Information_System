@@ -17,6 +17,19 @@ public class Main {
         try (Connection conn = DBConnection.getConnection()) {
             SchemaCreator createTable = new SchemaCreator(conn);
             createTable.createEmployeeTable();
+            createTable.createEmployeeAddressTable();
+            createTable.createDoctorTable();
+            createTable.createSpecializationTable();
+            createTable.createDoctorSpecializationTable();
+            createTable.createNurseTable();
+            createTable.createDepartmentTable();
+            createTable.createNurseRotatingDepartmentTable();
+            createTable.createWardTable();
+            createTable.createDiagnosisTable();
+            createTable.createPatientTable();
+            createTable.createPatientAddressTable();
+            createTable.createHospitalizationTable();
+            createTable.createTransferTable();
             System.out.println("DB connected");
 
         } catch (SQLException e) {
