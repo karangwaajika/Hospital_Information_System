@@ -41,6 +41,21 @@
             <Button text="Submit" onAction="#handleSubmit" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
         </VBox>
 
+        <!-- TableView -->
+        <VBox>
+            <TableView fx:id="patientTable" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="nationalIdColumn" text="National_ID"/>
+                    <TableColumn fx:id="firstNameColumn" text="Firstname"/>
+                    <TableColumn fx:id="surnameColumn" text="Surname"/>
+                    <TableColumn fx:id="telephoneColumn" text="Phone"/>
+                    <TableColumn fx:id="sexColumn" text="Sex"/>
+                    <TableColumn fx:id="dateColumn" text="Date of birth"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+
     </VBox>
 
 

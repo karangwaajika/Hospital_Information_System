@@ -8,6 +8,8 @@ import org.example.hospital_information_system.exception.PatientExitsException;
 import org.example.hospital_information_system.model.Patient;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class PatientRepository {
     private Connection connection;
@@ -61,5 +63,26 @@ public class PatientRepository {
             logger.log(Level.ERROR, e.getMessage());
         }
         return false;
+    }
+
+    public ArrayList<Patient> getAllPatients() throws SQLException{
+        String query = "SELECT * FROM patient";
+        ArrayList<Patient> patients = new ArrayList<>();
+
+        try (Statement stmt = this.connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Patient patient = new Patient(rs.getInt("id"), rs.getString("national_id"),
+                        rs.getString("first_name"),  rs.getString("surname"),
+                        rs.getString("telephone_number"),  rs.getString("sex").charAt(0),
+                        rs.getObject("date_of_birth", LocalDate.class));
+                patients.add(patient);
+            }
+
+        }catch (PatientExitsException e){
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return patients;
     }
 }

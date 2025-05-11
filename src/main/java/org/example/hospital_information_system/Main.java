@@ -25,11 +25,17 @@ public class Main {
             //insert patient
             System.out.println("###### INSERT ######");
 
+
             PatientRepository patientRepo = new PatientRepository(conn);
             if(!patientRepo.checkPatientExists(p.getNationalId())){
                 patientRepo.insertPatient(p);
+
             }else{
                 System.out.println("user exist!");
+
+                System.out.println(patientRepo.getAllPatients().toString());
+                patientRepo.getAllPatients()
+                  .forEach(n -> System.out.println(n.getFirstName()));
             }
 
         } catch (SQLException e) {

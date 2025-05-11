@@ -33,6 +33,21 @@ public class Controller {
     @FXML
     public DatePicker dateOfBirthField;
 
+    // table fields
+    @FXML
+    private TableView<Patient> patientTable;
+    @FXML
+    private TableColumn<Patient, String> nationalIdColumn;
+    @FXML
+    private TableColumn<Patient, String> firstNameColumn;
+    @FXML
+    private TableColumn<Patient, String> surnameColumn;
+    @FXML
+    private TableColumn<Patient, String> telephoneColumn;
+    @FXML
+    private TableColumn<Patient, Character> sexColumn;
+    @FXML
+    private TableColumn<Patient, LocalDate> dateColumn;
 
 
     @FXML
@@ -105,7 +120,12 @@ public class Controller {
             Patient patient = new Patient(nationalId,firstName, surname, telephone, sex.charAt(0), dateOfBirth);
             PatientRepository patientRepo = new PatientRepository(conn);
             if(!patientRepo.checkPatientExists(patient.getNationalId())){
-                patientRepo.insertPatient(patient); // insert 
+                patientRepo.insertPatient(patient); // insert
+
+                //display to the table
+                ObservableList<Patient> patientList = FXCollections
+                        .observableArrayList(patientRepo.getAllPatients());
+                patientTable.setItems(patientList); // retrieve patients
             }else{
                 showAlert(Alert.AlertType.ERROR, "Patient Error",
                         "Patient with the provided national ID exists !!");
@@ -121,7 +141,6 @@ public class Controller {
             System.out.println("⚠️ Error: " + e.getMessage());
             showAlert(Alert.AlertType.ERROR, "Error",
                     "⚠️ Error: " + e.getMessage());
-            return;
         }
     }
 
@@ -143,7 +162,27 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        dateOfBirthField.setDayCellFactory(getPastOnlyFactory());
+        nationalIdColumn.setCellValueFactory(new PropertyValueFactory<>("nationalId"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        telephoneColumn.setCellValueFactory(new PropertyValueFactory<>("telephoneNumber"));
+        sexColumn.setCellValueFactory(new PropertyValueFactory<>("sex"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfBirth"));
+
+        try(Connection conn = DBConnection.getConnection()){
+            PatientRepository patientRepo = new PatientRepository(conn);
+            //display to the table
+            System.out.println(patientRepo.getAllPatients());
+            ObservableList<Patient> patientList = FXCollections
+                    .observableArrayList(patientRepo.getAllPatients());
+            patientTable.setItems(patientList);
+        }catch(SQLException e) {
+            System.out.println("⚠️ Error: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "⚠️ Error: " + e.getMessage());
+        }
+
+        dateOfBirthField.setDayCellFactory(getPastOnlyFactory()); //validate date
     }
 
     // disable future dates
