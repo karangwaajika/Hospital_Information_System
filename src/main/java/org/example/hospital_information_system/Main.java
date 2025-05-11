@@ -20,23 +20,24 @@ public class Main {
     public static void main(String[] args) {
         LocalDateTime date = LocalDateTime.now();
         LocalDate today = date.toLocalDate();
-        Patient p = new Patient("1199680054907072","Ajika", "Karangwa", "0782983266", 'F', today);
+        Patient p = new Patient("1199670054907072","Joel", "Karangwa", "0782983266", 'F', today);
         try (Connection conn = DBConnection.getConnection()) {
             //insert patient
-            System.out.println("###### INSERT ######");
-
-
             PatientRepository patientRepo = new PatientRepository(conn);
             if(!patientRepo.checkPatientExists(p.getNationalId())){
                 patientRepo.insertPatient(p);
 
             }else{
                 System.out.println("user exist!");
-
                 System.out.println(patientRepo.getAllPatients().toString());
                 patientRepo.getAllPatients()
-                  .forEach(n -> System.out.println(n.getFirstName()));
+                  .forEach(n -> System.out.println(n.getId()));
             }
+
+            // update user
+            Patient p2 = new Patient(1, "1199670054907072","Change", "Karangwa",
+                    "0782983266", 'F', today);
+            patientRepo.updateUser(p2);
 
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());

@@ -70,9 +70,9 @@ public class PatientRepository {
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, patientId);
-            int rowAffected = stmt.executeUpdate();
+            int rowDeleted = stmt.executeUpdate();
 
-            return rowAffected > 0;
+            return rowDeleted > 0;
 
         }catch (SQLException e){
             logger.log(Level.ERROR, e.getMessage());
@@ -99,5 +99,28 @@ public class PatientRepository {
             logger.log(Level.ERROR, e.getMessage());
         }
         return patients;
+    }
+
+    public boolean updateUser(Patient patient) {
+        String query = "UPDATE patient SET first_name = ?, surname = ?, telephone_number = ?, " +
+                "sex = ?, date_of_birth = ?, national_id = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, patient.getFirstName());
+            stmt.setString(2, patient.getSurname());
+            stmt.setString(3, patient.getTelephoneNumber());
+            stmt.setString(4, String.valueOf(patient.getSex()));
+            stmt.setDate(5, Date.valueOf(patient.getDateOfBirth()));
+            stmt.setString(6, patient.getNationalId());
+            stmt.setString(7, patient.getNationalId());
+            System.out.println(patient.getId());
+
+            int rowUpdated = stmt.executeUpdate();
+            return rowUpdated > 0;
+
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, e.getMessage());
+            return false;
+        }
     }
 }
