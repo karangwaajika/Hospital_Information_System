@@ -65,6 +65,21 @@ public class PatientRepository {
         return false;
     }
 
+    public boolean deletePatient(int patientId){
+        String query = "DELETE FROM patient WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, patientId);
+            int rowAffected = stmt.executeUpdate();
+
+            return rowAffected > 0;
+
+        }catch (SQLException e){
+            logger.log(Level.ERROR, e.getMessage());
+            return false;
+        }
+    }
+
     public ArrayList<Patient> getAllPatients() throws SQLException{
         String query = "SELECT * FROM patient";
         ArrayList<Patient> patients = new ArrayList<>();

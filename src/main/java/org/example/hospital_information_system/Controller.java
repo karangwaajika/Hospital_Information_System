@@ -201,6 +201,50 @@ public class Controller {
         };
     }
 
+    @FXML
+    private void handleDeletePatient() {
+        Patient selectedPatient = patientTable.getSelectionModel().getSelectedItem();
+
+        if (selectedPatient == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an patient to delete.");
+            return;
+        }
+
+        // Confirm before deleting
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Delete");
+        confirmAlert.setHeaderText(null);
+        confirmAlert.setContentText("Are you sure you want to delete this woman?");
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try(Connection conn = DBConnection.getConnection()){
+                PatientRepository patientRepo = new PatientRepository(conn);
+
+                if(patientRepo.checkPatientExists(selectedPatient.getNationalId())){
+                    boolean isDeleted = patientRepo.deletePatient(selectedPatient.getId());
+                    if(isDeleted){
+                        ObservableList<Patient> patientList = FXCollections
+                                .observableArrayList(patientRepo.getAllPatients());
+                        patientTable.setItems(patientList);
+                    }else{
+                        showAlert(Alert.AlertType.WARNING, "Error", "Deletion error occured.");
+                    }
+
+                }else{
+                    showAlert(Alert.AlertType.WARNING, "No Patient", "Patient doesn not exist.");
+                }
+
+            }catch(SQLException e) {
+                System.out.println("⚠️ Error: " + e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "⚠️ Error: " + e.getMessage());
+            }
+
+        }
+    }
+
 
 
 }

@@ -40,8 +40,11 @@
 
             <Button text="Submit" onAction="#handleSubmit" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
         </VBox>
-
-        <!-- TableView -->
+    <Separator prefWidth="1"/>
+        <HBox spacing="10">
+            <TextField fx:id="searchField" promptText="Search..." HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button onAction="#handleDeletePatient" text="Delete Selected" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        </HBox>        <!-- TableView -->
         <VBox>
             <TableView fx:id="patientTable" prefHeight="200">
                 <columns>
