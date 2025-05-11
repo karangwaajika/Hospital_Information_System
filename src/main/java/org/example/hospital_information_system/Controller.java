@@ -112,7 +112,7 @@ public class Controller {
             }
             if (!(nationalId.length() == 16)) {
                 showAlert(Alert.AlertType.ERROR, "Invalid ID",
-                        "Please provide a valid Phone with exactly 16 digits.");
+                        "Please provide a valid National ID with exactly 16 digits.");
                 return;
             }
 
