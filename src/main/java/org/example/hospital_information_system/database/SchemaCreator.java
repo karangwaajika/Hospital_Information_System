@@ -17,7 +17,7 @@ public class SchemaCreator {
     }
 
     public void createEmployeeTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS employee(" +
                     "id SERIAL PRIMARY KEY, " +
                     "employee_number VARCHAR(30) NOT NULL UNIQUE, " +
@@ -28,7 +28,7 @@ public class SchemaCreator {
                     "date_started DATE NOT NULL, " +
                     "sex CHAR(1) DEFAULT 'F', " +
                     "role VARCHAR(20) NOT NULL )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Employee table created !!!");
 
@@ -38,7 +38,7 @@ public class SchemaCreator {
     }
 
     public void createEmployeeAddressTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS employee_address(" +
                     "id SERIAL PRIMARY KEY, " +
                     "country VARCHAR(30) NOT NULL, " +
@@ -48,7 +48,7 @@ public class SchemaCreator {
                     "cell VARCHAR(15) NOT NULL, " +
                     "village VARCHAR(15) NOT NULL, " +
                     "employee_id INT REFERENCES employee(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Address table created !!!");
 
@@ -58,12 +58,12 @@ public class SchemaCreator {
     }
 
     public void createDoctorTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS doctor(" +
                     "id SERIAL PRIMARY KEY, " +
                     "license_number VARCHAR(20) NOT NULL, " +
                     "employee_id INT REFERENCES employee(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Doctor table created !!!");
 
@@ -73,12 +73,12 @@ public class SchemaCreator {
     }
 
     public void createSpecializationTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS specialization(" +
                     "id SERIAL PRIMARY KEY, " +
                     "name VARCHAR(15) NOT NULL, " +
                     "category VARCHAR(15) NOT NULL )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Specialization table created !!!");
 
@@ -88,12 +88,12 @@ public class SchemaCreator {
     }
 
     public void createDoctorSpecializationTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS doctor_specialization(" +
                     "id SERIAL PRIMARY KEY, " +
                     "doctor_id INT REFERENCES doctor(id), " +
                     "specialization_id INT REFERENCES specialization(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("DoctorSpecialization table created !!!");
 
@@ -103,12 +103,12 @@ public class SchemaCreator {
     }
 
     public void createNurseTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS nurse(" +
                     "id SERIAL PRIMARY KEY, " +
                     "license VARCHAR(15) NOT NULL, " +
                     "employee_id INT REFERENCES employee(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Nurse table created !!!");
 
@@ -118,7 +118,7 @@ public class SchemaCreator {
     }
 
     public void createDepartmentTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS department(" +
                     "id SERIAL PRIMARY KEY, " +
                     "code VARCHAR(15) NOT NULL, " +
@@ -126,7 +126,7 @@ public class SchemaCreator {
                     "building VARCHAR(15) NOT NULL, " +
                     "supervisor_id INT REFERENCES nurse(id), " +
                     "director_id INT REFERENCES doctor(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Department table created !!!");
 
@@ -136,14 +136,14 @@ public class SchemaCreator {
     }
 
     public void createNurseRotatingDepartmentTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS nurse_rotating_department(" +
                     "id SERIAL PRIMARY KEY, " +
                     "start_date DATE NOT NULL, " +
                     "end_date DATE NULL, " +
                     "nurse_id INT REFERENCES nurse(id), " +
                     "department_id INT REFERENCES department(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("NurseRotatingDepartment table created !!!");
 
@@ -153,14 +153,14 @@ public class SchemaCreator {
     }
 
     public void createWardTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS ward(" +
                     "id SERIAL PRIMARY KEY, " +
                     "name VARCHAR(15), " +
                     "bed_number INT, " +
                     "nurse_id INT REFERENCES nurse(id), " +
                     "department_id INT REFERENCES department(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Ward table created !!!");
 
@@ -170,11 +170,11 @@ public class SchemaCreator {
     }
 
     public void createDiagnosisTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS diagnosis(" +
                     "id SERIAL PRIMARY KEY, " +
                     "name VARCHAR(15) NOT NULL )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Diagnosis table created !!!");
 
@@ -184,7 +184,7 @@ public class SchemaCreator {
     }
 
     public void createPatientTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS patient(" +
                     "id SERIAL PRIMARY KEY, " +
                     "first_name VARCHAR(15) NOT NULL, " +
@@ -192,7 +192,7 @@ public class SchemaCreator {
                     "telephone_number VARCHAR(20) NOT NULL, " +
                     "date_of_birth DATE NOT NULL, " +
                     "sex CHAR(1) DEFAULT 'F')";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Patient table created !!!");
 
@@ -202,7 +202,7 @@ public class SchemaCreator {
     }
 
     public void createPatientAddressTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS patient_address(" +
                     "id SERIAL PRIMARY KEY, " +
                     "country VARCHAR(30) NOT NULL, " +
@@ -212,7 +212,7 @@ public class SchemaCreator {
                     "cell VARCHAR(15) NOT NULL, " +
                     "village VARCHAR(15) NOT NULL, " +
                     "patient_id INT REFERENCES patient(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("PatientAddress table created !!!");
 
@@ -222,7 +222,7 @@ public class SchemaCreator {
     }
 
     public void createHospitalizationTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS hospitalization(" +
                     "id SERIAL PRIMARY KEY, " +
                     "arrive_date DATE, " +
@@ -232,7 +232,7 @@ public class SchemaCreator {
                     "diagnosis_id INT REFERENCES diagnosis(id), " +
                     "ward_id INT REFERENCES ward(id), " +
                     "doctor_id INT REFERENCES doctor(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Hospitalization table created !!!");
 
@@ -243,7 +243,7 @@ public class SchemaCreator {
 
 
     public void createTransferTable(){
-        try{
+        try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS transfer(" +
                     "id SERIAL PRIMARY KEY, " +
                     "transfer_date DATE NOT NULL, " +
@@ -251,7 +251,7 @@ public class SchemaCreator {
                     "from_ward_id INT REFERENCES ward(id), " +
                     "to_ward_id INT REFERENCES ward(id), " +
                     "hospitalization_id INT REFERENCES hospitalization(id) )";
-            Statement statement = this.connection.createStatement();
+
             statement.execute(query);
             System.out.println("Transfer table created !!!");
 
