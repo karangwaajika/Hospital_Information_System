@@ -5,13 +5,15 @@ import java.time.LocalDate;
 public class Patient {
     private int id;
     private String firstName;
+    private String nationalId;
     private String surname;
     private String telephoneNumber;
     private char sex;
     private LocalDate dateOfBirth;
 
-    public Patient(String firstName, String surname,
+    public Patient(String nationalId, String firstName, String surname,
                    String telephoneNumber, char sex, LocalDate dateOfBirth){
+        this.nationalId = nationalId;
         this.firstName = firstName;
         this.surname = surname;
         this.telephoneNumber = telephoneNumber;
@@ -19,9 +21,10 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Patient(int id,String firstName, String surname,
+    public Patient(int id, String nationalId, String firstName, String surname,
                    String telephoneNumber, char sex, LocalDate dateOfBirth){
         this.id = id;
+        this.nationalId = nationalId;
         this.firstName = firstName;
         this.surname = surname;
         this.telephoneNumber = telephoneNumber;
@@ -75,5 +78,13 @@ public class Patient {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getNationalId() {
+        return nationalId;
+    }
+
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
     }
 }

@@ -187,11 +187,13 @@ public class SchemaCreator {
         try(Statement statement = this.connection.createStatement()){
             String query = "CREATE TABLE IF NOT EXISTS patient(" +
                     "id SERIAL PRIMARY KEY, " +
+                    "national_id VARCHAR(16) UNIQUE, " +
                     "first_name VARCHAR(15) NOT NULL, " +
                     "surname VARCHAR(15) NOT NULL, " +
                     "telephone_number VARCHAR(20) NOT NULL, " +
                     "date_of_birth DATE NOT NULL, " +
-                    "sex CHAR(1) DEFAULT 'F')";
+                    "sex CHAR(1) DEFAULT 'F', " +
+                    "CHECK (char_length(national_id) >= 16 AND char_length(national_id) <= 16))";
 
             statement.execute(query);
             System.out.println("Patient table created !!!");

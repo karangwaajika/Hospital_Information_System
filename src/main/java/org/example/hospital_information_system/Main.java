@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         LocalDateTime date = LocalDateTime.now();
         LocalDate today = date.toLocalDate();
-        Patient p = new Patient("Ajika", "Karangwa", "0782983266", 'F', today);
+        Patient p = new Patient("1199680054907072","Ajika", "Karangwa", "0782983266", 'F', today);
         try (Connection conn = DBConnection.getConnection()) {
             //insert patient
             System.out.println("###### INSERT ######");

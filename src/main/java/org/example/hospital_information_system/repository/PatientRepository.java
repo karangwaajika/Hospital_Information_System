@@ -6,10 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.hospital_information_system.database.SchemaCreator;
 import org.example.hospital_information_system.model.Patient;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class PatientRepository {
     private Connection connection;
@@ -21,13 +18,14 @@ public class PatientRepository {
 
     public void insertPatient(Patient patient){
         String query = "INSERT INTO patient(first_name, surname, " +
-                "telephone_number, sex, date_of_birth) values(?, ?, ?, ? ,?)";
+                "telephone_number, sex, date_of_birth, national_id) values(?, ?, ?, ? , ?, ?)";
         try(PreparedStatement statement = this.connection.prepareStatement(query)){
             statement.setString(1, patient.getFirstName());
             statement.setString(2, patient.getSurname());
             statement.setString(3, patient.getTelephoneNumber());
             statement.setString(4, String.valueOf(patient.getSex()));
             statement.setObject(5, patient.getDateOfBirth());
+            statement.setObject(6, patient.getNationalId());
 
             statement.executeUpdate();
 
