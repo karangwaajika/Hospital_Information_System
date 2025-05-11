@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.hospital_information_system.database.SchemaCreator;
+import org.example.hospital_information_system.exception.PatientExitsException;
 import org.example.hospital_information_system.model.Patient;
 
 import java.sql.*;
@@ -29,10 +30,36 @@ public class PatientRepository {
 
             statement.executeUpdate();
 
+            // Get generated ID
+            try (ResultSet rs = statement.getGeneratedKeys()) {
+                if (rs.next()) {
+                    patient.setId(rs.getInt(1)); // update patient object id.
+                }
+            }
+
             System.out.println("Patient successfully inserted !!!");
 
         }catch (SQLException e){
             logger.log(Level.ERROR, e.getMessage());
         }
+    }
+
+    public boolean patientExists(String patientNationalID) throws SQLException{
+        String sql = "SELECT COUNT(*) FROM patient WHERE national_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, patientNationalID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                //throw new PatientExitsException("National ID provided exist already: "+ patientNationalID);
+                return count > 0;
+            }
+
+        }catch (PatientExitsException e){
+            logger.log(Level.ERROR, e.getMessage());
+        }
+        return false;
     }
 }

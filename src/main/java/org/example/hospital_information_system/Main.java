@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.hospital_information_system.exception.PatientExitsException;
 import org.example.hospital_information_system.model.Patient;
 import org.example.hospital_information_system.repository.PatientRepository;
 
@@ -23,8 +24,13 @@ public class Main {
         try (Connection conn = DBConnection.getConnection()) {
             //insert patient
             System.out.println("###### INSERT ######");
+
             PatientRepository patientRepo = new PatientRepository(conn);
-            patientRepo.insertPatient(p);
+            if(!patientRepo.patientExists(p.getNationalId())){
+                patientRepo.insertPatient(p);
+            }else{
+                System.out.println("user exist!");
+            }
 
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());
