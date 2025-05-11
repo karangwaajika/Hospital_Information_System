@@ -8,6 +8,8 @@ module org.example.hospital_information_system {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
+    requires org.apache.logging.log4j;
+    requires java.sql;
 
     opens org.example.hospital_information_system to javafx.fxml;
     exports org.example.hospital_information_system;
